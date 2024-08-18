@@ -1,0 +1,6 @@
+.idea
+.vscode
+.task/
+node_modules/
+temp/
+secrets/

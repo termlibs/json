@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
-_SCRIPT_SH_VERSION=0.0.1
+export _JSON_SH_VERSION=0.0.1
 # source grammar from https://ecma-international.org/publications-and-standards/standards/ecma-404/
 
 export __DATAFILE__="$(mktemp -t json_basher.XXXXXXXXXX)"
 trap 'rm -f "$__DATAFILE__"' EXIT
 
-# shellcheck source=../common.sh
-source ./libs/common.sh
+# shellcheck source=./common.sh
+source ./json/common.sh
 # shellcheck source=./_util.sh
-source ./libs/json/_util.sh
+source ./json/_util.sh
 # shellcheck source=./_string.sh
-source ./libs/json/_string.sh
+source ./json/_string.sh
 # shellcheck source=./_number.sh
-source ./libs/json/_number.sh
+source ./json/_number.sh
 # shellcheck source=./_literals.sh
-source ./libs/json/_literals.sh
+source ./json/_literals.sh
 # shellcheck source=./_object.sh
-source ./libs/json/_object.sh
+source ./json/_object.sh
 # shellcheck source=./_array.sh
-source ./libs/json/_array.sh
+source ./json/_array.sh
 # shellcheck source=./_root.sh
-source ./libs/json/_root.sh
+source ./json/_root.sh
 
 export GLOBAL_COUNTER=0
 export _KEY_PATH=()

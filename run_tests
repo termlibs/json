@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+./compile_script.sh -o json -f ./json/main.sh
+
+source ./dist/json.sh
+
+for T in ./tests/*.sh; do
+  echo "Running test $T"
+  ./"${T}"
+done

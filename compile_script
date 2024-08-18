@@ -3,8 +3,8 @@
 
 shopt -s extglob
 
-# shellcheck source=./libs/common.sh
-source ./libs/common.sh
+# shellcheck source=./json/common.sh
+source ./json/common.sh
 
 if [ -z "$1" ]; then
   echo "Usage: $0 <file>"
@@ -79,6 +79,7 @@ compile_script() {
       ;;
     -f | --force)
       ARG_FORCE=true
+      shift
       ;;
     -o | --output-name)
       ARG_OUTPUT_NAME="$2"
@@ -103,7 +104,7 @@ compile_script() {
   [ -n "$ARG_TARGET_SHELL" ] || ARG_TARGET_SHELL="bash"
 
   local to_compile="$(realpath "${1}")"
-  if _validate_path "${ARG_OUTPUT_NAME}" er > - && ! [ "$ARG_FORCE" = true ]; then
+  if _validate_path "${ARG_OUTPUT_NAME}" er 2> /dev/null && ! [ "$ARG_FORCE" = true ]; then
     printf "Error: Compiled file already exists. Use -f to overwrite\n" >&2
     exit 1
   fi
@@ -112,9 +113,10 @@ compile_script() {
   trap 'rm -f "$temp_file"' EXIT
 
   # start compiling
-  printf "#!/usr/bin/env %s\n" "$BUILD_TARGET" > "$temp_file"
+  printf "#!/usr/bin/env %s\n" "$ARG_TARGET_SHELL" > "$temp_file"
   local line
   while IFS='' read -r line; do
+    printf "check line $line\n"
     _handle_script_line "$to_compile" "$line" "$temp_file"
   done < "$to_compile"
   cp "$temp_file" "$ARG_OUTPUT_NAME"

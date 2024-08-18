@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# shellcheck source=./libs/json.sh
+# shellcheck source=./json.sh
 trap 'set +x' EXIT
-source "./libs/json/main.sh"
+source "./json/main.sh"
 source ./tests/utils.sh
 
 assert_string_eq() {

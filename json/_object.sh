@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
 # shellcheck source=./_string.sh
-source ./libs/json/_string.sh
+source ./json/_string.sh
 
 # shellcheck source=./_number.sh
-source ./libs/json/_number.sh
+source ./json/_number.sh
 
 # shellcheck source=./_array.sh
-source ./libs/json/_array.sh
+source ./json/_array.sh
 
 # shellcheck source=./_root.sh
-source ./libs/json/_root.sh
+source ./json/_root.sh
 
 # source grammar from https://ecma-international.org/publications-and-standards/standards/ecma-404/
 #               ┌─────────────────────────────┐

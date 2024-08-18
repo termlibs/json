@@ -1,0 +1,55 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Test
+        run: |
+          ./test
+
+  build:
+    name: Build Sript
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: 'true'
+          persist-credentials: 'false'
+          token: ${{ steps.app-token.outputs.token }}
+      - name: Setup Git
+        run: |
+          git config --global user.email "termlibs[bot]@users.noreply.github.com"
+          git config --global user.name "termlibs[bot]"
+      - name: Github auth
+        env:
+            GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |-
+          IFS='=' read -r  _ VERSION <<< "$(grep --max-count 1 --only-matching --perl-regexp '_JSON_SH_VERSION=.*' ./json/main.sh)"
+          tag="v${VERSION#v}"
+          
+          if [ -n "$(git tag --list "$tag")" ] ; then
+            printf "::error::Tag/Release $tag already exists\n"
+            exit 1
+          fi
+          
+          mkdir -p dist
+          ./compile_all -o json -f ./json/main.sh
+          
+          gh release create --generate-notes "$tag" dist/json.sh

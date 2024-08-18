@@ -3,7 +3,7 @@
 export GLOBAL_COUNTER=0
 
 # shellcheck source=./_util.sh
-source ./libs/json/_util.sh
+source ./json/_util.sh
 
 # source grammar from https://ecma-international.org/publications-and-standards/standards/ecma-404/
 #

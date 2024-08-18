@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-_SCRIPT_SH_VERSION=0.0.1
 
 # source grammar from https://ecma-international.org/publications-and-standards/standards/ecma-404/
 # start ──┬───► object ────┬─► end

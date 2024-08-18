@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# shellcheck source=../../libs/json/_string.sh
-source ./libs/json/_string.sh
+# shellcheck source=../../json/_string.sh
+source ./json/_string.sh
 
-# shellcheck source=../../libs/logging.sh
-source ./libs/logging.sh
+# shellcheck source=../../json/logging.sh
+source ./json/logging.sh
 
-# shellcheck source=../../libs/assert.sh
-source ./libs/assert.sh
+# shellcheck source=../../json/assert.sh
+source ./json/assert.sh
 
 for s in \
   '"this is a string!"' \

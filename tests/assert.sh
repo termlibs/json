@@ -1,5 +1,5 @@
 #shellcheck source=./logging.sh
-source ./libs/logging.sh
+source ./json/logging.sh
 
 assert_string_eq() {
   local s1 s2
