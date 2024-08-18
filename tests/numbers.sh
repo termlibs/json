@@ -2,14 +2,14 @@
 export GLOBAL_COUNTER=0
 export CURRENT_VALUE=""
 
-# shellcheck source=../../json/_number.sh
+# shellcheck source=../json/_number.sh
 source ./json/_number.sh
 
-# shellcheck source=../../json/logging.sh
+# shellcheck source=../json/logging.sh
 source ./json/logging.sh
 
-# shellcheck source=../../json/assert.sh
-source ./json/assert.sh
+# shellcheck source=./assert.sh
+source ./tests/assert.sh
 
 for n in \
    "1.2" \

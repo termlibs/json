@@ -123,5 +123,5 @@ elog() {
       fi
       ;;
   esac
-  printf "%s [%b] %b: %s\n" "$timestamp" "$level" "$fn_name" "$1"
+  printf "%s [%b] %b: %s\n" "$timestamp" "$level" "$fn_name" "$1" >&2
 }

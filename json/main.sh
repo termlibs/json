@@ -79,7 +79,7 @@ enter() {
   parse_json "$current_path" "$raw_data"
 }
 
-#enter "$@"
-
-#printf "KEY_PATH: %s\n" "${_KEY_PATH[*]}"
-#printf "%s\n" "${_DATA_OBJECT[*]}"
+# if we are running this as a script to do some task we can do that
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+  enter "$@"
+fi

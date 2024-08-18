@@ -117,20 +117,25 @@ _s_0() {
 _string() {
   # quote has been recognized but not stripped yet
   local value next R
-  local CHAR="${1:1:1}" # skip the quote
-  local REMAINDER="${1:2}"
-  [ "$CHAR" = '"' ] && [ -z "$REMAINDER" ] && return 0 # empty string
-  case "$CHAR" in                                      # we are at the first char after the quote
+  local value="${1:1:1}" # skip the quote
+  local next="${1:2}"
+  [ "$value" = '"' ] && [ -z "$next" ] && return 0 # empty string
+  case "$value" in                                      # we are at the first char after the quote
     \\)
-      eval R="$(_s_0 "$REMAINDER" "$CHAR")" || return "$?"
+      eval R="$(_s_0 "$next" "$value")" || return "$?"
       value=${R[0]}
       next=${R[1]}
       ;;
     *)
-     eval R="$(_s_1 "$REMAINDER" "$CHAR")" || return "$?"
+     eval R="$(_s_1 "$next" "$value")" || return "$?"
       value=${R[0]}
       next=${R[1]}
       ;;
   esac
   printf '( %s %s )' "${value@Q}" "${next@Q}"
+}
+
+_unwrap_string() {
+  eval R="$(_string "$1")" || return "$?"
+  printf "%s" "${R[0]}"
 }

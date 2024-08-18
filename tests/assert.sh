@@ -1,4 +1,4 @@
-#shellcheck source=./logging.sh
+#shellcheck source=../json/logging.sh
 source ./json/logging.sh
 
 assert_string_eq() {
@@ -6,10 +6,10 @@ assert_string_eq() {
   s1="$1"
   s2="$2"
   if [ "$s1" != "$s2" ]; then
-    elog -l ERROR "assertion failed: '$s1' != '$s2'"
+    elog -l ERROR "✗ assertion failed: '$s1' != '$s2'"
     return 1
   else
-    elog -l INFO "assertion passed: '${s1:0:250}' == '${s2:0:250}'"
+    elog -l INFO "✓ assertion passed: '${s1:0:250}' == '${s2:0:250}'"
   fi
 }
 
@@ -37,21 +37,21 @@ assert_error() {
   _rc="$?"
   if [ "$_rc" -eq 0 ]; then
     if [ -n "$code" ]; then
-      elog -l ERROR "assertion failed in $fn: expected error code $code but got none"
+      elog -l ERROR "✗ assertion failed in $fn: expected error code $code but got none"
       return 1
     else
-      elog -l ERROR "assertion failed in $fn: expected error but got none"
+      elog -l ERROR "✗ assertion failed in $fn: expected error but got none"
     fi
     return 1
   else
     if [ -n "$code" ]; then
       if [ "$code" != "$_rc" ]; then
-        elog -l ERROR "assertion failed in $fn: expected error code $code but got $_rc"
+        elog -l ERROR "✗ assertion failed in $fn: expected error code $code but got $_rc"
         return 1
       fi
-      elog -l INFO "assertion passed in $fn: expected error code $code and got error code $_rc"
+      elog -l INFO "✓ assertion passed in $fn: expected error code $code and got error code $_rc"
     else
-      elog -l INFO "assertion passed in $fn: expected error"
+      elog -l INFO "✓ assertion passed in $fn: expected error"
     fi
   fi
 }
