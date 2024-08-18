@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Test
         run: |
-          ./run_tests
+          bash ./run_tests
 
   build:
     name: Build Script
@@ -50,7 +50,7 @@ jobs:
           fi
           
           mkdir -p dist
-          ./compile_all -o json -f ./json/main.sh
+          bash ./compile_all -o json -f ./json/main.sh
           
           cp dist/json.sh dist/json
           chmod 0755 dist/json
