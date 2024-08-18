@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
+set -e
 
-./compile_script.sh -o json -f ./json/main.sh
+./compile_script -o json -f ./json/main.sh
 
+source ./json/logging.sh
 source ./dist/json.sh
 
 for T in ./tests/*.sh; do
-  printf "Running test %s\n" "$T"
+  log_test "${T}"
   bash ./"${T}"
 done
