@@ -121,7 +121,7 @@ _s_0() {
 # returns (value: string, next: string)
 _string() {
   # quote has been recognized but not stripped yet
-  local value next R
+  local value next R _R
   local value="${1:1:1}" # skip the quote
   local next="${1:2}"
   [ "$value" = '"' ] && [ -z "$next" ] && return 0 # empty string

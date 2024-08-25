@@ -3,7 +3,7 @@
 
 
 _ERROR_SYNTAX() {
-  printf "SYNTAX ERROR: Unexpected character at position %d: '%s'\n" "$1" "$2" >&2
+  printf "SYNTAX ERROR: Unexpected character at position %d: '%s'\n" "$(cat "$_TMP/char_index")" "$1" >&2
   return 99
 }
 
@@ -33,7 +33,17 @@ _next_token_index() {
   printf "%d" "$start"
 }
 
+# _last_char
+# get the last character of a string
+_last_char() {
+  local str="$1"
+  printf "%s" "${str:$((${#str} - 1)):1}"
+}
 
+# _inc_counter
+# increment the value in the char_index file by 1
+# we use this to keep track of the location of the character we are currently processing
+# for helpful logging
 _inc_counter() {
   local char_index
   read -r -d '' char_index < "$_TMP/char_index"
