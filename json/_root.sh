@@ -11,49 +11,53 @@
 
 parse_json() {
   #  set -x
-  local current_path="$1"
-  local TRIMMED="$(slurp_whitespace "$2")"
-  local CHAR="${TRIMMED:0:1}"
-  local RAW_INPUT="$TRIMMED"
-  local value=""
-  local save_value="false"
+  local next="$(slurp_whitespace "$1")"
+  [ -z "$next" ] && return 99
   case "$CHAR" in
     '"')
-      eval R="$(_string "$RAW_INPUT")" || return "$?"
+      _R="$(_string "$next")" || return "$?"
+      eval R="$_R"
+      eval R="$_R"
       value=${R[0]}
       next=${R[1]}
       save_value="true"
       ;;
     [[:digit:]] | '-')
-     eval R="$(_number "$RAW_INPUT")" || return "$?"
+     _R="$(_number "$next")" || return "$?"
+      eval R="$_R"
       value=${R[0]}
       next=${R[1]}
       save_value="true"
       ;;
     "t")
-     eval R="$(_true "$RAW_INPUT")" || return "$?"
+     _R="$(_true "$next")" || return "$?"
+      eval R="$_R"
       value=${R[0]}
       next=${R[1]}
       save_value="true"
       ;;
     "f")
-     eval R="$(_false "$RAW_INPUT")" || return "$?"
+     _R="$(_false "$next")" || return "$?"
+      eval R="$_R"
       value=${R[0]}
       next=${R[1]}
       save_value="true"
       ;;
     "n")
-     eval R="$(_null "$RAW_INPUT")" || return "$?"
+     _R="$(_null "$next")" || return "$?"
+      eval R="$_R"
       value=${R[0]}
       next=${R[1]}
       ;;
     '{')
-     eval R="$(_object "$current_path" "$RAW_INPUT")" || return "$?"
+     _R="$(_object "$next")" || return "$?"
+      eval R="$_R"
       value=${R[0]}
       next=${R[1]}
       ;;
     '[')
-     eval R="$(_array "$current_path" "$RAW_INPUT")" || return "$?"
+     _R="$(_array "$next")" || return "$?"
+      eval R="$_R"
       value=${R[0]}
       next=${R[1]}
       ;;
@@ -62,8 +66,5 @@ parse_json() {
       return 99
       ;;
   esac
-  if [ "$save_value" = "true" ]; then
-    save_data "$current_path" "$value"
-  fi
   printf '( %s %s )' "${value@Q}" "${next@Q}"
 }

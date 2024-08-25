@@ -2,9 +2,6 @@
 export _JSON_SH_VERSION=0.0.1
 # source grammar from https://ecma-international.org/publications-and-standards/standards/ecma-404/
 
-export __DATAFILE__="$(mktemp -t json_basher.XXXXXXXXXX)"
-trap 'rm -f "$__DATAFILE__"' EXIT
-
 # shellcheck source=./common.sh
 source ./json/common.sh
 # shellcheck source=./_util.sh
@@ -26,6 +23,8 @@ export GLOBAL_COUNTER=0
 export _KEY_PATH=()
 declare -A _DATA_OBJECT
 export KEY_DIVIDER="${KEY_DIVIDER:-.}"
+export _TMP="$(mktemp  --directory -t json_basher.XXXXXXXXXX)"
+trap 'rm -f "$_TMP"' EXIT
 
 enter() {
   #  set -x
@@ -75,8 +74,7 @@ enter() {
       exit 1
       ;;
   esac
-  local current_path=""
-  parse_json "$current_path" "$raw_data"
+  parse_json "$raw_data"
 }
 
 # if we are running this as a script to do some task we can do that

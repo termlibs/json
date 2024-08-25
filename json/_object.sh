@@ -23,14 +23,16 @@ source ./json/_root.sh
 _o_0() {
   # parse the key
   local key_value value next R
-  eval R="$(_string "$2")" || return "$?"
+  _R="$(_string "$2")" || return "$?"
+  eval R="$_R"
   key_value=${R[0]}
   next=${R[1]}
   local current_path="${1}${KEY_DIVIDER}${key_value}"
   next="$(slurp_whitespace "${next}")" # remove whitespace
   # next character _must be a colon
   [ "${next:0:1}" = ':' ] || return 99 # remove whitespace
-  eval R="$(parse_json "$current_path" "$(slurp_whitespace "${next:1}")")" || return "$?"
+  _R="$(parse_json "$current_path" "$(slurp_whitespace "${next:1}")")" || return "$?"
+  eval R="$_R"
   value=${R[0]}
   next=${R[1]}
   next="$(slurp_whitespace "$next")" # remove whitespace
@@ -38,7 +40,8 @@ _o_0() {
   ,)
     # TODO:  this munks up the keys, we can't just reuse the above so this is next thing that needs fixies
     # do it again!
-    eval R="$(_o_0 "$current_path" "${next:1}")" || return "$?"
+    _R="$(_o_0 "$current_path" "${next:1}")" || return "$?"
+    eval R="$_R"
     value=${R[0]}
     next=${R[1]}
     ;;
@@ -60,7 +63,8 @@ _object() {
   [ "$CHAR" = '}' ] && [ -z "$REMAINDER" ] && return 0 # empty object
   case "$CHAR" in                                      # we are at the first char after the quote
   \")
-    eval R="$(_o_0 "$current_path" "$TRIMMED")" || return "$?"
+    _R="$(_o_0 "$current_path" "$TRIMMED")" || return "$?"
+    eval R="$_R"
     value=${R[0]}
     next=${R[1]}
     ;;

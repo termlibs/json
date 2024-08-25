@@ -6,8 +6,8 @@ source ./json/main.sh
 # shellcheck source=../json/logging.sh
 source ./json/logging.sh
 
-# shellcheck source=./assert.sh
-source ./tests/assert.sh
+# shellcheck source=./util.sh
+source ./tests/util.sh
 
 test_string='
 {"this": "is", "a": "test"}

@@ -55,32 +55,6 @@ assert_error() {
     fi
   fi
 }
-#!/usr/bin/env bash
-trap 'set +x' EXIT
-
-assert_string_eq() {
-  local s1 s2
-  s1="$1"
-  s2="$2"
-  if [ "$s1" != "$s2" ]; then
-    elog -l ERROR "assertion failed: '$s1' != '$s2'"
-    return 1
-  else
-    elog -l INFO "assertion passed: '$s1' == '$s2'"
-  fi
-}
-
-assert_error() {
-  local fn
-  fn="$1"
-  shift
-  if $fn "$@"; then
-    elog -l ERROR "assertion failed: expected error"
-    return 1
-  else
-    elog -l INFO "assertion passed: expected error"
-  fi
-}
 
 log_test() {
   elog -l INFO "Running test ${$1}: ${_T}"

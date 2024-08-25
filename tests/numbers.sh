@@ -8,8 +8,8 @@ source ./json/_number.sh
 # shellcheck source=../json/logging.sh
 source ./json/logging.sh
 
-# shellcheck source=./assert.sh
-source ./tests/assert.sh
+# shellcheck source=./util.sh
+source ./tests/util.sh
 
 for n in \
    "1.2" \
